@@ -6,3 +6,5 @@ add_library(UserApplication
 target_include_directories(UserApplication PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/Inc
 )
+
+target_link_libraries(UserApplication PRIVATE Omni_Drive HC_SR04 STM32G4xx_Cpp_Hal Cube_Core)
