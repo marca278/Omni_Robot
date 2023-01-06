@@ -56,33 +56,30 @@ add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
 add_link_options(-T ${LINKER_SCRIPT})
 
-# if(DEFINED ENV{GITHUB_ACTION})
-#     message("From github enviroment")
-#     set(GIT_REPO_CPP_INTERFACE https://marca278:$ENV{GH_PAT}@github.com/marca278/Hal_Cpp_Interface.git)
-#     set(GIT_REPO_G4_HALL https://marca278:$ENV{GH_PAT}@github.com/marca278/STM32G4xx_Cpp_Hal.git)
-# else()
-#     message("From local enviroment")
-#     set(GIT_REPO_CPP_INTERFACE https://github.com/marca278/Hal_Cpp_Interface.git)
-#     set(GIT_REPO_G4_HALL https://github.com/marca278/STM32G4xx_Cpp_Hal.git)
-# endif()
+if(DEFINED ENV{GITHUB_ACTION})
+    message("From github enviroment")
+    set(GIT_REPO_CPP_INTERFACE https://marca278:$ENV{GH_PAT}@github.com/marca278/Hal_Cpp_Interface.git)
+    set(GIT_REPO_G4_HALL https://marca278:$ENV{GH_PAT}@github.com/marca278/STM32G4xx_Cpp_Hal.git)
+else()
+    message("From local enviroment")
+    set(GIT_REPO_CPP_INTERFACE https://github.com/marca278/Hal_Cpp_Interface.git)
+    set(GIT_REPO_G4_HALL https://github.com/marca278/STM32G4xx_Cpp_Hal.git)
+endif()
 
-# FetchContent_Declare(HAL_CPP_INTERFACE
-#     GIT_REPOSITORY ${GIT_REPO_CPP_INTERFACE}
-#     GIT_TAG        origin/main
-#     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Interface
-#     GIT_SUBMODULES ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Interface
-# )
+FetchContent_Declare(HAL_CPP_INTERFACE
+    GIT_REPOSITORY ${GIT_REPO_CPP_INTERFACE}
+    GIT_TAG        origin/main
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Interface
+)
 
 
-# FetchContent_Declare(STM32G4XX_CPP_HAL
-#     GIT_REPOSITORY ${GIT_REPO_G4_HALL}
-#     GIT_TAG        origin/main
-#     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Implementation
-# #    GIT_SUBMODULES ${GIT_REPO_G4_HALL}
-# )
+FetchContent_Declare(STM32G4XX_CPP_HAL
+    GIT_REPOSITORY ${GIT_REPO_G4_HALL}
+    GIT_TAG        origin/main
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Implementation
+)
 
-# FetchContent_MakeAvailable(HAL_CPP_INTERFACE STM32G4XX_CPP_HAL)
-
+FetchContent_MakeAvailable(HAL_CPP_INTERFACE STM32G4XX_CPP_HAL)
 
 add_subdirectory(Drivers)
 add_subdirectory(Core)
