@@ -60,10 +60,12 @@ if(DEFINED ENV{GITHUB_ACTION})
     message("From github enviroment")
     set(GIT_REPO_CPP_INTERFACE https://marca278:$ENV{GH_PAT}@github.com/marca278/Hal_Cpp_Interface.git)
     set(GIT_REPO_G4_HALL https://marca278:$ENV{GH_PAT}@github.com/marca278/STM32G4xx_Cpp_Hal.git)
+    set(GIT_REPO_COMPONENT https://marca278:$ENV{GH_PAT}@github.com/marca278/Mcu_Components.git)
 else()
     message("From local enviroment")
     set(GIT_REPO_CPP_INTERFACE https://github.com/marca278/Hal_Cpp_Interface.git)
     set(GIT_REPO_G4_HALL https://github.com/marca278/STM32G4xx_Cpp_Hal.git)
+    set(GIT_REPO_COMPONENT https://github.com/marca278/Mcu_Components.git)
 endif()
 
 FetchContent_Declare(HAL_CPP_INTERFACE
@@ -79,11 +81,17 @@ FetchContent_Declare(STM32G4XX_CPP_HAL
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Implementation
 )
 
-FetchContent_MakeAvailable(HAL_CPP_INTERFACE STM32G4XX_CPP_HAL)
+FetchContent_Declare(MCU_COMPONENTS
+    GIT_REPOSITORY ${GIT_REPO_COMPONENT}
+    GIT_TAG        origin/main
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Components
+)
+
+FetchContent_MakeAvailable(HAL_CPP_INTERFACE STM32G4XX_CPP_HAL MCU_COMPONENTS)
 
 add_subdirectory(Drivers)
 add_subdirectory(Core)
-#add_subdirectory(User)
+add_subdirectory(User)
 
 
 add_executable(${PROJECT_NAME}.elf 
