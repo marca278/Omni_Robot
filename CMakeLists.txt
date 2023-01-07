@@ -46,11 +46,8 @@ endif ()
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32G491xx)
 
-
-
-
-
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32G491RETX_FLASH.ld)
+message(${LINKER_SCRIPT})
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
@@ -99,7 +96,7 @@ add_executable(${PROJECT_NAME}.elf
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/main.c
     ${LINKER_SCRIPT}
 )
-target_link_libraries(${PROJECT_NAME}.elf PRIVATE STM32G4xx_CubeLib Cube_Core)
+target_link_libraries(${PROJECT_NAME}.elf PRIVATE STM32G4xx_CubeLib Cube_Core Omni_Application)
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)

@@ -9,6 +9,7 @@
 #include "main.h"
 #include "tim.h"
 #include "Servo.h"
+#include "Turnable_HCSR04.h"
 
 namespace Neo
 {

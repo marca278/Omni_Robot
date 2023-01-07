@@ -1,19 +1,32 @@
 //
 // Created by marc on 04.12.22.
 //
+#include "Factory.h"
+#include "tests.h"
 
-#include "OmniApp.h"
+using namespace Neo;
 
-
-namespace Neo {
-
-    int omniApp() {
+static IOmniDrive* initOmniDriveSubsystem() {
         
-        return 0;
-    }
+    IOmniDrive* omniDrive = Factory::createDriveSubsystem();
 
-    void OmniApp::init() {
+    return omniDrive;
+}
+
+static Turnable_HCSR04* initOmniFrontSensorSubsystem() {
         
-        //drive = new OmniDrive()
-    }
-} // Neo
+    Turnable_HCSR04* frontSensor = Factory::createFrontDistanceSensor();
+
+    return frontSensor;
+}
+
+extern "C" int omniApp() {
+    IOmniDrive* drive = initOmniDriveSubsystem();
+    ITurnableDistanceSensor* sensor = initOmniFrontSensorSubsystem();
+    
+    runTests(*drive, *sensor);
+
+
+    return 0;
+}
+
