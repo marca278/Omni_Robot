@@ -23,6 +23,7 @@ add_compile_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
 add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-length=0)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # uncomment to mitigate c++17 absolute addresses warnings
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-register")
@@ -96,6 +97,8 @@ add_subdirectory(User)
 add_executable(${PROJECT_NAME}.elf 
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Startup/startup_stm32g491retx.s
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/syscalls.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/sysmem.c
     ${LINKER_SCRIPT}
 )
 target_link_libraries(${PROJECT_NAME}.elf PRIVATE STM32G4xx_CubeLib Cube_Core Omni_Application)
