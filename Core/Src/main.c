@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "Omni_c_interface.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,7 +113,7 @@ int main(void)
     HAL_UART_Transmit(&hlpuart1, "Hallo\n\r", sizeof("Hallo\n\r"), HAL_MAX_DELAY);
    
     /* USER CODE END WHILE */
-
+    omniApp();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

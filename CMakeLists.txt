@@ -23,6 +23,7 @@ add_compile_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
 add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-length=0)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # uncomment to mitigate c++17 absolute addresses warnings
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-register")
@@ -46,11 +47,8 @@ endif ()
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32G491xx)
 
-
-
-
-
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32G491RETX_FLASH.ld)
+message(${LINKER_SCRIPT})
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
@@ -68,26 +66,28 @@ else()
     set(GIT_REPO_COMPONENT https://github.com/marca278/Mcu_Components.git)
 endif()
 
+    
 FetchContent_Declare(HAL_CPP_INTERFACE
     GIT_REPOSITORY ${GIT_REPO_CPP_INTERFACE}
-    GIT_TAG        origin/main
-    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Interface
+    GIT_TAG        main
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Cpp_Interface/
 )
-
 
 FetchContent_Declare(STM32G4XX_CPP_HAL
     GIT_REPOSITORY ${GIT_REPO_G4_HALL}
     GIT_TAG        origin/main
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Implementation
+    GIT_SUBMODULES_RECURSE on
 )
 
 FetchContent_Declare(MCU_COMPONENTS
     GIT_REPOSITORY ${GIT_REPO_COMPONENT}
     GIT_TAG        origin/main
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Components
+    GIT_SUBMODULES_RECURSE on
 )
 
-FetchContent_MakeAvailable(HAL_CPP_INTERFACE STM32G4XX_CPP_HAL MCU_COMPONENTS)
+FetchContent_MakeAvailable(STM32G4XX_CPP_HAL MCU_COMPONENTS)
 
 add_subdirectory(Drivers)
 add_subdirectory(Core)
@@ -97,9 +97,11 @@ add_subdirectory(User)
 add_executable(${PROJECT_NAME}.elf 
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Startup/startup_stm32g491retx.s
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/main.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/syscalls.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/sysmem.c
     ${LINKER_SCRIPT}
 )
-target_link_libraries(${PROJECT_NAME}.elf PRIVATE STM32G4xx_CubeLib Cube_Core)
+target_link_libraries(${PROJECT_NAME}.elf PRIVATE STM32G4xx_CubeLib Cube_Core Omni_Application)
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)

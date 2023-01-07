@@ -16,9 +16,9 @@ public:
 
     /// @brief 
     /// @return 
-    IOmniDrive* createDriveSubsystem();
+    static IOmniDrive* createDriveSubsystem();
 
-    Turnable_HCSR04* createFrontDistanceSensor();
+    static Turnable_HCSR04* createFrontDistanceSensor();
 
 };
 
