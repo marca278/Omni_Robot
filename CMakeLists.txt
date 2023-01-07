@@ -65,17 +65,25 @@ else()
     set(GIT_REPO_COMPONENT https://github.com/marca278/Mcu_Components.git)
 endif()
 
+    
+FetchContent_Declare(HAL_CPP_INTERFACE
+    GIT_REPOSITORY ${GIT_REPO_CPP_INTERFACE}
+    GIT_TAG        main
+    SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Cpp_Interface/
+)
 
 FetchContent_Declare(STM32G4XX_CPP_HAL
     GIT_REPOSITORY ${GIT_REPO_G4_HALL}
     GIT_TAG        origin/main
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Hal/Implementation
+    GIT_SUBMODULES_RECURSE on
 )
 
 FetchContent_Declare(MCU_COMPONENTS
     GIT_REPOSITORY ${GIT_REPO_COMPONENT}
     GIT_TAG        origin/main
     SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/User/Components
+    GIT_SUBMODULES_RECURSE on
 )
 
 FetchContent_MakeAvailable(STM32G4XX_CPP_HAL MCU_COMPONENTS)

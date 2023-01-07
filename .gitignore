@@ -10,5 +10,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 build
-User/Hal
+User/Hal/Implementation
+User/Hal/Cpp_Interface
 User/Components
