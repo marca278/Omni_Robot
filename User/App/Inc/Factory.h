@@ -7,20 +7,17 @@
 
 namespace Neo
 {
-    
-/// @brief Create Omni Subsystems
-class Factory
-{
-public:
-    
 
-    /// @brief 
-    /// @return 
-    static IOmniDrive* createDriveSubsystem();
+    /// @brief Create Omni Subsystems
+    class Factory
+    {
+    public:
+        /// @brief
+        /// @return
+        static IOmniDrive *createDriveSubsystem();
 
-    static Turnable_HCSR04* createFrontDistanceSensor();
-
-};
+        static Turnable_HCSR04 *createFrontDistanceSensor();
+    };
 
 } // namespace Neo
 
